@@ -1,0 +1,70 @@
+﻿@using GridMvc.Html
+@model NewsParserParadigmas.Models.ReportViewModel
+
+    <h1>Procesador de Lenguaje Natural en Noticias</h1>
+<div>
+    @using (@Html.BeginForm("Analizar", "Home"))
+    {
+        <i>Este prototipo permite obtener un listado de noticias de un origen RSS, para cada ítem del RSS se realiza un análisis de lenguaje natural para reconocer entidades, se utiliza el <strong>paradigma basado en casos</strong> para comparar los textos contra grandes cantidades de modelos.</i>
+        <br/>
+        <br />
+        <label> URL de Notificias RSS</label>
+    <input style="margin-left:20px; width:400px" id="txtUrlFeed" name="txtUrlFeed" type="url" value="http://www.ticotimes.net/feed" required="required" title="origen rss de noticias"/>
+        <br />
+        <label> Palabra a buscar</label>
+        <input style="margin-left: 55px; width: 200px" id="txtWord" name="txtWord" required="required" autofocus="autofocus" title="Permite buscar una palabra para una entidad en los resultados" />
+        <br />
+        <label>Categoría</label>
+        <br />
+        <select id="ddlCategoria" name="ddlCategoria">
+            <option>Location</option>
+            <option>Person</option>
+            <option>Organization</option>
+            <option>Money</option>
+            <option>Percent</option>
+            <option>Date</option>
+            <option>Time</option>
+        </select>
+        <br />
+        <br />
+        <button type="submit" name="Analizar">Analizar</button>
+        <br/>
+        <br/>
+        <i>Esta operación requiere un extensivo uso de recursos, la ejecución puede tardar hasta 10 minutos.</i>
+        
+    }
+  
+</div>  
+
+<h2>Resultado de Análisis</h2>
+
+<link href="@Url.Content("~/Content/Gridmvc.css")" rel="stylesheet" />
+<link href="@Url.Content("~/Content/bootstrap.min.css")" rel="stylesheet" />
+<script src="@Url.Content("~/Scripts/jquery-1.10.2.min.js")"></script>
+<script src="@Url.Content("~/Scripts/gridmvc.min.js")"></script>
+
+<div class="code-cut">
+    @Html.Grid(Model.ParseResults).Columns(columns =>
+    {
+        columns.Add(c => c.Identificador).Titled("Id").Filterable(false);
+        columns.Add(c => c.Titulo).Titled("Titulo").Filterable(false);
+        columns.Add(c => c.TextoOriginal).Titled("Noticia").Filterable(false);
+        columns.Add(c => c.ResultadoClase3).Titled("Clase 3").Filterable(false);
+        columns.Add(c => c.ResultadoClase7).Titled("Clase 7").Filterable(false);  
+    })
+</div>
+<h2>Resultado de Búsqueda</h2>
+<div class="code-cut">
+    @Html.Grid(Model.Diagnostico).Columns(columns =>
+                    {
+                        columns.Add(c => c.Identificador).Titled("Id").Filterable(false);
+                        columns.Add(c => c.Palabra).Titled("Palabra").Filterable(false);
+                        columns.Add(c => c.NER).Titled("Entidad Nombrada").Filterable(false);
+                    })
+</div>
+
+
+  
+<div class="row">
+    
+</div>
