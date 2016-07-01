@@ -3,18 +3,21 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.Xml.Linq;
+using com.sun.tools.@internal.ws.processor.model;
 using edu.stanford.nlp.ie.crf;
 using NewsParserDomain.Models;
+using sun.tools.tree;
 
 namespace NewsParserDomain.Controllers
 {
     public class ParserController
     {
-        public static ParseResult ParseString(NewsItem item, String identificador)
+       
+        public static ParseResult ParseString(NewsItem item, String identificador, String paketPath)
         {
             // Path to the folder with classifies models
-            const string jarRoot = @"C:\Dev\ProyectoParadigmas\paket-files\nlp.stanford.edu\stanford-ner-2015-12-09";
-            const string classifiersDirecrory = jarRoot + @"\classifiers";
+            var jarRoot = paketPath;
+            var classifiersDirecrory = jarRoot + @"\classifiers";
 
             // Loading 3 class classifier model
             var classifier = CRFClassifier.getClassifierNoExceptions(

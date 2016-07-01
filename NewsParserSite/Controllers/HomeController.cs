@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Linq;
 using System.Threading;
 using System.Web;
@@ -28,7 +29,7 @@ namespace NewsParserParadigmas.Controllers
                 var resultados = new List<ParseResult>();
                 var newsItems = NewsController.GetNews(resultFormCollection["txtUrlFeed"]);
                 var identificador = 1;
-                foreach (var item in newsItems.Select(newsItem => ParserController.ParseString(newsItem, identificador.ToString())))
+                foreach (var item in newsItems.Select(newsItem => ParserController.ParseString(newsItem, identificador.ToString(), ConfigurationManager.AppSettings["paket-files"])))
                 {
                     resultados.Add(item);
                     identificador++;
